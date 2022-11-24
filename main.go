@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/GeekSpotlight/go-gin-example/config"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +18,8 @@ func main() {
 
 	// http://localhost:8080/hi
 	router.GET("/hi", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "hello there!")
+		appName := config.Get("application.name")
+		ctx.String(http.StatusOK, fmt.Sprintf("hello there! welcome to %s", appName))
 	})
 
 	// http://localhost:8080/bye

@@ -2,13 +2,15 @@ package config
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
 func init() {
-	loadConfigurations()
+	// loadConfigurations()
+	loadEnvConfigurations()
 }
 
 func loadConfigurations() {
@@ -23,6 +25,17 @@ func loadConfigurations() {
 		fmt.Println("Config file changed:", e.Name)
 	})
 	viper.WatchConfig()
+}
+
+func loadEnvConfigurations() {
+	os.Setenv("port", "13")
+	os.Setenv("TGC_PORT", "14")
+	// viper.SetEnvPrefix("TGC")
+
+	viper.BindEnv("port")
+	// fmt.Printf("port '%v'\n", viper.Get("port"))
+
+	// os.Setenv("TGC_PORT", "13") // typically done outside of the app
 }
 
 func Get(name string) interface{} {

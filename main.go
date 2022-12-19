@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func main2() {
+func main() {
 	router := gin.New()
 
 	// serves http://localhost:8080/health
@@ -29,12 +29,26 @@ func main2() {
 		ctx.String(http.StatusOK, "take care now")
 	})
 
+	// http://localhost:8080/hi
+	router.GET("/hi", func(ctx *gin.Context) {
+		appConfig := config.GetAppConfig()
+		// appName := config.Get("appName")
+		ctx.String(http.StatusOK, fmt.Sprintf("hello there! welcome to %s", appConfig.AppName))
+	})
+
+	// http://localhost:8080/hi
+	router.GET("/hi", func(ctx *gin.Context) {
+		appConfig := config.GetAppConfig()
+		// appName := config.Get("appName")
+		ctx.String(http.StatusOK, fmt.Sprintf("hello there! welcome to %s", appConfig.AppName))
+	})
+
 	// by default, runs in port :8080
 	router.Run()
 	// router.Run(":5001")
 }
 
-func main() {
+func main2() {
 	// singleParam()
 	// doubleParam()
 	// multiParam()

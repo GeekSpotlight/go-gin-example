@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/GeekSpotlight/go-gin-example/model"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
 func init() {
-	// loadConfigurations()
-	loadEnvConfigurations()
+	loadConfigurations()
+	// loadEnvConfigurations()
 }
 
 func loadConfigurations() {
@@ -25,6 +27,8 @@ func loadConfigurations() {
 		fmt.Println("Config file changed:", e.Name)
 	})
 	viper.WatchConfig()
+
+	viper.RegisterAlias("appName", "application.name")
 }
 
 func loadEnvConfigurations() {
@@ -40,4 +44,12 @@ func loadEnvConfigurations() {
 
 func Get(name string) interface{} {
 	return viper.Get(name)
+}
+
+func GetAppConfig() model.AppConfig {
+	var appConfig model.AppConfig
+
+	viper.Unmarshal(&appConfig)
+
+	return appConfig
 }
